@@ -1,9 +1,10 @@
 import React, { Component, useState } from 'react';
 import './style.css';
+import avatarIcon from './../../../assets/images/avatar.png';
 import validateLogin from './validateLogin';
 
 
-class Security extends Component{
+class Security extends Component {
 
     state = {
         name: "",
@@ -11,35 +12,40 @@ class Security extends Component{
     };
 
     changeName = (event) => {
-        this.setState({name: event.target.value});
+        this.setState({ name: event.target.value });
     }
 
     changePassword = (event) => {
-        this.setState({password: event.target.value});
+        this.setState({ password: event.target.value });
     }
 
     login = () => {
         validateLogin();
     }
 
-    render(){
+    render() {
         return (
             <div>
-                <div class="background h-100 w-100">
-                    <div class="loginbox">
-                        <img src="./../../../assets/images/avatar.png" class="avatar" />
-                        <h1>Login Here</h1>
-                        <form name="frmlogin">
-                            <p>Username</p>
-                            <input type="text" name="usuariotxt" id="usuariotxt" placeholder="Enter Username" value={this.name} onChange={this.changeName}/>
-                            <p>Senha</p>
-                            <input type="password" name="senhatxt" id="senhatxt" placeholder="Enter Password2" value={this.password} onChange={this.changePassword}/>
-                            <input type="submit" name="" value="Login" onClick={this.login}/>
-                            <a href="#">Don't have an account?</a>
-                        </form>
-                        <div class="msg-error" id="error">
-                            <p>Usuario ou senha incorretos</p>
+                <div class="wrapper fadeInDown">
+                    <div id="formContent">
+
+
+
+                        <div class="fadeIn first">
+                            <img src={avatarIcon} id="icon" alt="User Icon"/>
                         </div>
+
+
+                        <form name="frmlogin">
+                            <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" value={this.name}/>
+                            <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value={this.password} />
+                            <input type="submit" class="fadeIn fourth" value="Log In" onClick={this.login}/>
+                        </form>
+
+                        <div id="formFooter">
+                            <a class="underlineHover" href="#">Forgot Password?</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
