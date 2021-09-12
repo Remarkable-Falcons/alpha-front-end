@@ -27,7 +27,7 @@ class Security extends Component{
             <div>
                 <div class="background h-100 w-100">
                     <div class="loginbox">
-                        <img src="assets/images/avatar.png" class="avatar" />
+                        <img src="./../../../assets/images/avatar.png" class="avatar" />
                         <h1>Login Here</h1>
                         <form name="frmlogin">
                             <p>Username</p>

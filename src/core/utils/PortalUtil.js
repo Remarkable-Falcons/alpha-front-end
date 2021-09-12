@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class PortalUtil {
     
     static baseUrl = "localhost:8080/";
