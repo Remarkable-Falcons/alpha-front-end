@@ -6,6 +6,7 @@ class PortalUtil {
     static baseUrl = "http://localhost:8080/strategicManagement";
     // currentUser ainda nao foi implementado
     static currentUser: User;
+    static userToken: string;
 
     constructor(){
         console.log("PortalUtil is inicialized");
@@ -27,6 +28,14 @@ class PortalUtil {
 
     static getCurrentUser(): User{
         return this.currentUser;
+    }
+
+    static setUserToken(newToken: string): void{
+        this.userToken = newToken;
+    }
+
+    static getUserToken(): string{
+        return this.userToken;
     }
 }
 
