@@ -1,18 +1,32 @@
 import axios from 'axios';
+import User from '../entity/user.model';
 
 class PortalUtil {
     
+    static baseUrl = "http://localhost:8080/strategicManagement";
+    // currentUser ainda nao foi implementado
+    static currentUser: User;
+
     constructor(){
         console.log("PortalUtil is inicialized");
     }
-    static baseUrl = "http://localhost:8080/strategicManagement";
+
     static getBaseUrl = () => {
         return this.baseUrl;
     }
+
     static createConnection = () => {
         return axios.create({
             baseURL: PortalUtil.getBaseUrl()
         });
+    }
+
+    static setCurrentUser = (newUser: User) =>{
+        this.currentUser = newUser;
+    }
+
+    static getCurrentUser(): User{
+        return this.currentUser;
     }
 }
 
