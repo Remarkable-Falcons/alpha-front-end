@@ -1,7 +1,6 @@
 import PortalUtil from './../../utils/PortalUtil';
 
-export default  async (login) => {
-    console.log(PortalUtil.createConnection());
+export default  (login) => {
     PortalUtil.createConnection().post("/auth/login", {
             login: login.name,
             password: login.password

@@ -39,7 +39,7 @@ class Security extends Component {
                         <form name="frmlogin">
                             <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" value={this.name} onChange={this.changeName}/>
                             <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value={this.password} onChange={this.changePassword} />
-                            <input type="submit" class="fadeIn fourth" value="Log In" onClick={this.login}/>
+                            <input type="button" class="fadeIn fourth" value="Log In" onClick={this.login}/>
                         </form>
 
                         <div id="formFooter">
