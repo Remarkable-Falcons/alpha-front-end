@@ -4,14 +4,14 @@ import avatarIcon from './../../../assets/images/avatar.png';
 import validateLogin from './validateLogin';
 import { Redirect } from 'react-router-dom';
 
-
 class Security extends Component {
 
     state = {
         name: "",
-        password: ""
+        password: "",
+        redirect: false
     };
-    
+
     changeName = (event) => {
         this.setState({ name: event.target.value });
     }
@@ -21,44 +21,52 @@ class Security extends Component {
     }
 
     login = () => {
-        let promiseLogin = validateLogin(this.state);
+        let promiseLogin = validateLogin({
+            login: this.state.name,
+            password: this.state.password
+        });
         promiseLogin
-        .then(result => {
-            console.log("result callback " + result);
-            return <Redirect to="/dashboard" />;
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            .then(result => {
+                this.props.history.push("/dashboard");
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     render() {
-        return (
-            <div>
-                <div class="wrapper fadeInDown">
-                    <div id="formContent">
+        if (this.state.redirect) {
+            return <Redirect to="/dashboard" />
+        }
+        else {
+            return (
+                <div>
+
+                    <div class="wrapper fadeInDown">
+                        <div id="formContent">
 
 
 
-                        <div class="fadeIn first">
-                            <img src={avatarIcon} id="icon" alt="User Icon"/>
+                            <div class="fadeIn first">
+                                <img src={avatarIcon} id="icon" alt="User Icon" />
+                            </div>
+
+
+                            <form name="frmlogin">
+                                <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" value={this.name} onChange={this.changeName} />
+                                <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value={this.password} onChange={this.changePassword} />
+                                <input type="button" class="fadeIn fourth" value="Log In" onClick={this.login} />
+                            </form>
+
+                            <div id="formFooter">
+                                <a class="underlineHover" href="#">Forgot Password?</a>
+                            </div>
+
                         </div>
-
-
-                        <form name="frmlogin">
-                            <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" value={this.name} onChange={this.changeName}/>
-                            <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value={this.password} onChange={this.changePassword} />
-                            <input type="button" class="fadeIn fourth" value="Log In" onClick={this.login}/>
-                        </form>
-
-                        <div id="formFooter">
-                            <a class="underlineHover" href="#">Forgot Password?</a>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
