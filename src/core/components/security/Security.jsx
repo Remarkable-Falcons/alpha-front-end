@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import './style.css';
 import avatarIcon from './../../../assets/images/avatar.png';
 import validateLogin from './validateLogin';
+import { Redirect } from 'react-router-dom';
 
 
 class Security extends Component {
@@ -20,7 +21,15 @@ class Security extends Component {
     }
 
     login = () => {
-        validateLogin(this.state);
+        let promiseLogin = validateLogin(this.state);
+        promiseLogin
+        .then(result => {
+            console.log("result callback " + result);
+            return <Redirect to="/dashboard" />;
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     render() {
