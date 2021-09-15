@@ -1,5 +1,6 @@
 import axios from 'axios';
-import User from '../entity/user.model';
+import Enterprise from '../../model/Enterprise';
+import User from '../../model/user.model';
 
 class PortalUtil {
     
@@ -7,6 +8,7 @@ class PortalUtil {
     // currentUser ainda nao foi implementado
     static currentUser: User;
     static userToken: string;
+    private static enterprise: Enterprise;
 
     constructor(){
         console.log("PortalUtil is inicialized");
@@ -36,6 +38,10 @@ class PortalUtil {
 
     static getUserToken(): string{
         return this.userToken;
+    }
+
+    static getEnterprise(): Enterprise{
+        return this.enterprise;
     }
 }
 

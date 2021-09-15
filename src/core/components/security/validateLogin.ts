@@ -1,4 +1,4 @@
-import PortalUtil from '../../utils/PortalUtil';
+import PortalUtil from '../../shared/utils/PortalUtil';
 
 export default async function (login:
     {
