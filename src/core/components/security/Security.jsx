@@ -3,6 +3,7 @@ import './style.css';
 import avatarIcon from './../../../assets/images/avatar.png';
 import validateLogin from './validateLogin';
 import { Redirect } from 'react-router-dom';
+import PortalUtil from '../../shared/utils/PortalUtil';
 
 class Security extends Component {
 
@@ -27,6 +28,7 @@ class Security extends Component {
         });
         promiseLogin
             .then(result => {
+                PortalUtil.setUserToken(result.data.token);
                 this.props.history.push("/dashboard");
             })
             .catch(err => {

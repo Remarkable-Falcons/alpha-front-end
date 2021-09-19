@@ -1,9 +1,10 @@
-import { NavbarItem } from './../model/core/NavbarItem';
+import PortalUtil from '../utils/PortalUtil';
+import { FieldNav } from '../model/core/FieldNav';
 
 export default class NavbarService {
     
-    public getAll(): NavbarItem[]{
-        let navbarList: NavbarItem[] = [];
-        navbarList.push(new NavbarItem(""));
+    public async get(){
+        let navbar = await PortalUtil.createConnection().get('/nav');
+        return navbar;
     }
 }

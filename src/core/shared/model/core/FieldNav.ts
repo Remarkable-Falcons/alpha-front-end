@@ -1,4 +1,4 @@
-export class NavbarItem {
+export class FieldNav {
   title: string;
   image: string;
   link: string;

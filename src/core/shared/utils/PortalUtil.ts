@@ -1,13 +1,13 @@
 import axios from 'axios';
-import Enterprise from '../../model/Enterprise';
-import User from '../../model/user.model';
+import Enterprise from '../model/Enterprise';
+import User from '../model/user.model';
+import history from './history';
 
 class PortalUtil {
     
     static baseUrl = "http://localhost:8080/strategicManagement";
     // currentUser ainda nao foi implementado
     static currentUser: User;
-    static userToken: string;
     private static enterprise: Enterprise;
 
     constructor(){
@@ -19,9 +19,27 @@ class PortalUtil {
     }
 
     static createConnection = () => {
-        return axios.create({
-            baseURL: PortalUtil.getBaseUrl()
+        const api = axios.create({
+            baseURL: PortalUtil.getBaseUrl(),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ` + PortalUtil.getUserToken()
+            }
         });
+
+        api.interceptors.response.use((response) => {
+            return response;
+        }, (error) => {
+
+            if (error.response.status === 401) {
+                PortalUtil.removeToken();
+                history.push("/");
+                const requestConfig = error.config;
+                return axios(requestConfig);
+            }
+            return Promise.reject(error);
+        });
+        return api;
     }
 
     static setCurrentUser = (newUser: User) =>{
@@ -33,15 +51,20 @@ class PortalUtil {
     }
 
     static setUserToken(newToken: string): void{
-        this.userToken = newToken;
+        localStorage.setItem('token', newToken);
     }
 
     static getUserToken(): string{
-        return this.userToken;
+        return localStorage.getItem('token')!;
+    }
+
+    static removeToken(): void {
+        localStorage.removeItem('token');
     }
 
     static getEnterprise(): Enterprise{
-        return this.enterprise;
+        // apagar isso e trazer do back-end, xunxo apenas para teste.
+        return this.enterprise || new Enterprise('Ambiente de desenvolvimento');
     }
 }
 
