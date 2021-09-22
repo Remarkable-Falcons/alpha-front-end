@@ -4,7 +4,7 @@ import { FieldNav } from '../model/core/FieldNav';
 export default class NavbarService {
     
     public async get(){
-        let navbar = await PortalUtil.createConnection().get('/nav');
+        let navbar = PortalUtil.createConnection().get('/nav');
         return navbar;
     }
 }

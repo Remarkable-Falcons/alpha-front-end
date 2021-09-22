@@ -42,6 +42,10 @@ class PortalUtil {
         return api;
     }
 
+    static getHistory = () => {
+        return history;
+    }
+
     static setCurrentUser = (newUser: User) =>{
         this.currentUser = newUser;
     }

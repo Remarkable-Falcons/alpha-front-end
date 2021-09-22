@@ -6,17 +6,16 @@ export class NavbarComponent extends Component {
 
 
     getNav = async () => {
-        let navbar;
-        await new NavbarService().get().then(result => {
-            const navbar = result.data;
+        new NavbarService().get().then(result => {
+            console.log("nav: " + result.data);
+            return result.data;
         });
-        return navbar;
     }
 
     render() {
         return (
             <div>
-                <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark" style="height: 8%;">
+                <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark" style={{height: "8%"}}>
                     <a class="navbar-brand" href="#">{PortalUtil.getEnterprise().getName()}</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -53,18 +52,18 @@ export class NavbarComponent extends Component {
 
 
     renderItems = function(){
-        const nav = this.getNav();
-        nav.items.map(item => {
+        const nav = this.getNav().then(result => console.log("nav:"+result));
+        // nav.items.map(item => {
 
-            if(item.fields){
-                // é dropdown
-                return this.renderItem();
-            } else {
-                // é navitem comum
-                return this.renderDropdownItem();
-            }
+        //     if(item.fields){
+        //         // é dropdown
+        //         return this.renderItem();
+        //     } else {
+        //         // é navitem comum
+        //         return this.renderDropdownItem();
+        //     }
 
-        });
+        // });
     }
 
     renderItem = function(item){
