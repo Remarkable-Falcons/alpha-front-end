@@ -4,14 +4,6 @@ import NavbarService from '../../../shared/service/NavbarService';
 
 export class NavbarComponent extends Component {
 
-
-    getNav = async () => {
-        new NavbarService().get().then(result => {
-            console.log("nav: " + result.data);
-            return result.data;
-        });
-    }
-
     render() {
         return (
             <div>
@@ -52,18 +44,19 @@ export class NavbarComponent extends Component {
 
 
     renderItems = function(){
-        const nav = this.getNav().then(result => console.log("nav:"+result));
-        // nav.items.map(item => {
+        const nav = new NavbarService().get().then(result => {
+            result.data.fields.map(item => {
 
-        //     if(item.fields){
-        //         // é dropdown
-        //         return this.renderItem();
-        //     } else {
-        //         // é navitem comum
-        //         return this.renderDropdownItem();
-        //     }
+                if (item.fields) {
+                    // é dropdown
+                    return this.renderDropdownItem(item);
+                } else {
+                    // é navitem comum
+                    return this.renderItem(item);
+                }
 
-        // });
+            });
+        });
     }
 
     renderItem = function(item){
@@ -86,14 +79,13 @@ export class NavbarComponent extends Component {
         return (
         <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="{{item.icon}}">
+               <i class={item.icon}>
                  <span class="badge badge-primary"></span>
                </i>
                {item.title}
              </a>
              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                 {}
-               { this.renderSubItems() }
+               { this.renderSubItems(item) }
              </div >
            </li >);
     }
