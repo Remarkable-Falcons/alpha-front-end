@@ -12,6 +12,9 @@ class PortalUtil {
 
     constructor(){
         console.log("PortalUtil is inicialized");
+        PortalUtil.createConnection().get('/config/enterprise').then(result => {
+            PortalUtil.setEnterprise(new Enterprise(result.data));
+        });
     }
 
     static getBaseUrl = () => {
@@ -69,6 +72,10 @@ class PortalUtil {
     static getEnterprise(): Enterprise{
         // apagar isso e trazer do back-end, xunxo apenas para teste.
         return this.enterprise || new Enterprise('Ambiente de desenvolvimento');
+    }
+
+    static setEnterprise(newEnterprise: Enterprise): void {
+        this.enterprise = newEnterprise;
     }
 }
 
