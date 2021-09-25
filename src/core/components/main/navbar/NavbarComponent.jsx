@@ -4,10 +4,18 @@ import NavbarService from '../../../shared/service/NavbarService';
 
 export class NavbarComponent extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            navItems: []
+        };
+    }
+
     render() {
+        const { navItems } = this.state;
         return (
             <div>
-                <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark" style={{height: "8%"}}>
+                <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark" style={{ height: "8%" }}>
                     <a class="navbar-brand" href="#">{PortalUtil.getEnterprise().getName()}</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -15,11 +23,11 @@ export class NavbarComponent extends Component {
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            { this.renderItems() }
-                        </ul >
+                            {navItems}
+                        </ul>
 
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown" key="01">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-user">
                                     </i>
@@ -43,10 +51,9 @@ export class NavbarComponent extends Component {
     }
 
 
-    renderItems = function(){
-        const nav = new NavbarService().get().then(result => {
-            result.data.fields.map(item => {
-
+    renderItems = async function () {
+        const nav = await new NavbarService().get().then(result => {
+            return result.data.fields.map(item => {
                 if (item.fields) {
                     // é dropdown
                     return this.renderDropdownItem(item);
@@ -57,17 +64,20 @@ export class NavbarComponent extends Component {
 
             });
         });
+        this.setState({ navItems: nav });
     }
 
-    renderItem = function(item){
+    renderItem = function (item) {
         let navItemRendered;
         navItemRendered = (
-            <li class="nav-item">
-                <a class="nav-link" href={item.link}>
-                    <i class={item.icon}></i>
-                    {item.title}
-                </a >
-            </li >
+            <div>
+                <li class="nav-item" key={item.order}>
+                    <a class="nav-link" href={item.link}>
+                        <i class={item.icon}></i>
+                        {item.title}
+                    </a>
+                </li >
+            </div>
         )
         // if(isFirst){
         //     navItemRendered = navItemRendered + (<span class="sr-only">(current)</span>);
@@ -75,58 +85,34 @@ export class NavbarComponent extends Component {
         return navItemRendered;
     }
 
-    renderDropdownItem = function(item) {
+    renderDropdownItem = function (item) {
         return (
-        <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class={item.icon}>
-                 <span class="badge badge-primary"></span>
-               </i>
-               {item.title}
-             </a>
-             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-               { this.renderSubItems(item) }
-             </div >
-           </li >);
+            <div>
+                <li class="nav-item dropdown" key={item.order}>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class={item.icon}>
+                            <span class="badge badge-primary"></span>
+                        </i>
+                        {item.title}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {this.renderSubItems(item)}
+                    </div >
+                </li >
+            </div>
+        );
     }
 
-    renderSubItems = function(item) {
+    renderSubItems = function (item) {
         return item.fields.map((subItem => (
-            <a class="dropdown-item" href={subItem.link}>
+            <a class="dropdown-item" href={subItem.link} key={item.order}>
                 {subItem.title}
             </a>
         )));
     }
-    //function getNsadavItems() {
-    // return (
-    //     <div>
-    //         <div class="item-navbar" *ngFor="let item of navbar.fields; first as isFirst">
-    //         <li class="nav-item" *ngIf="!item.fields">
-    //         <a class="nav-link" *ngIf="item.link" href="{{ item.link }}" target='{{ patternUrl.getTarget(item) }}'>
-    //         <i class="{{item.icon}}"></i>
-    //         {{ item.title }}
-    //         <span class="sr-only" *ngIf="isFirst">(current)</span>
-    //       </a >
-    //   </li >
 
-
-
-    //     <li class="nav-item dropdown" * ngIf= "item.fields" >
-    //     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    //       <i class="{{item.icon}}">
-    //         <span class="badge badge-primary"></span>
-    //       </i>
-    //       {{item.title}}
-    //     </a>
-    //     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-    //       <a class="dropdown-item" href="{{subItem.link}}" *ngFor="let subItem of item.fields">
-    //         {{subItem.title}}
-    //       </a>
-    //     </div >
-    //   </li >
-    // </div >
-    //         </div >
-     //   );
-     //   }
+    componentDidMount() {
+        this.renderItems();
+    }
 
 }
