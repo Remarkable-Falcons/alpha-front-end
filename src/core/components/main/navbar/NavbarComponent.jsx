@@ -23,7 +23,7 @@ export class NavbarComponent extends Component {
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            {navItems}
+                            { navItems }
                         </ul>
 
                         <ul class="navbar-nav">
@@ -89,7 +89,7 @@ export class NavbarComponent extends Component {
         return (
             <div>
                 <li class="nav-item dropdown" key={item.order}>
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class={item.icon}>
                             <span class="badge badge-primary"></span>
                         </i>
@@ -105,7 +105,7 @@ export class NavbarComponent extends Component {
 
     renderSubItems = function (item) {
         return item.fields.map((subItem => (
-            <a class="dropdown-item" href={subItem.link} key={item.order}>
+            <a class="dropdown-item" href={subItem.link} key={subItem.order}>
                 {subItem.title}
             </a>
         )));
