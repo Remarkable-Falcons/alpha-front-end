@@ -1,8 +1,8 @@
 export default class Enterprise{
     name: string;
 
-    constructor(name: string){
-        this.name = name;
+    constructor(options: {name: string}){
+        this.name = options.name;
     }
 
     public getName(): string{

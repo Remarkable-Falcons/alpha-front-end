@@ -13,6 +13,7 @@ class PortalUtil {
     constructor(){
         console.log("PortalUtil is inicialized");
         PortalUtil.createConnection().get('/config/enterprise').then(result => {
+            console.log(result);
             PortalUtil.setEnterprise(new Enterprise(result.data));
         });
     }
@@ -69,9 +70,17 @@ class PortalUtil {
         localStorage.removeItem('token');
     }
 
-    static getEnterprise(): Enterprise{
+    static async getEnterprise(): Promise<Enterprise>{
         // apagar isso e trazer do back-end, xunxo apenas para teste.
-        return this.enterprise || new Enterprise('Ambiente de desenvolvimento');
+        return this.enterprise || 
+        await this.getEnterpriseByApi().then(result => {
+            PortalUtil.setEnterprise(new Enterprise({name: "teste"}));
+            return new Enterprise({name: "teste"});
+        });
+    }
+
+    static async getEnterpriseByApi(): Promise<Enterprise> {
+        return PortalUtil.createConnection().get('/config/enterprise');
     }
 
     static setEnterprise(newEnterprise: Enterprise): void {

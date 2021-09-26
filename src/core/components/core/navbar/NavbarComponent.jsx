@@ -8,23 +8,30 @@ export class NavbarComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            navItems: []
+            navItems: [],
+            title: ""
         };
+        PortalUtil.getEnterprise().then(result => {
+            this.setState({
+                title: result.name
+            })
+        })
     }
 
     render() {
-        const { navItems } = this.state;
+        const { navItems } = this.state;        
+        const { title } = this.state;
         return (
             <div>
                 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark" style={{ height: "8%" }}>
-                    <a class="navbar-brand" href="#">{PortalUtil.getEnterprise().getName()}</a>
+                    <a class="navbar-brand" href="#">{ title }</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            { navItems }
+                            {navItems}
                         </ul>
 
                         <ul class="navbar-nav">
@@ -71,12 +78,12 @@ export class NavbarComponent extends Component {
     renderItem = function (item) {
         let navItemRendered;
         navItemRendered = (
-                <li class="nav-item" key={item.order}>
-                    <a class="nav-link" href={item.link}>
-                        <i class={item.icon}></i>
-                        {item.title}
-                    </a>
-                </li >
+            <li class="nav-item" key={item.order}>
+                <a class="nav-link" href={item.link}>
+                    <i class={item.icon}></i>
+                    {item.title}
+                </a>
+            </li >
         )
         // if(isFirst){
         //     navItemRendered = navItemRendered + (<span class="sr-only">(current)</span>);
@@ -86,17 +93,17 @@ export class NavbarComponent extends Component {
 
     renderDropdownItem = function (item) {
         return (
-                <li class="nav-item dropdown" key={item.order}>
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown">
-                        <i class={item.icon}>
-                            <span class="badge badge-primary"></span>
-                        </i>
-                        {item.title}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {this.renderSubItems(item)}
-                    </div>
-                </li >
+            <li class="nav-item dropdown" key={item.order}>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown">
+                    <i class={item.icon}>
+                        <span class="badge badge-primary"></span>
+                    </i>
+                    {item.title}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {this.renderSubItems(item)}
+                </div>
+            </li >
         );
     }
 
