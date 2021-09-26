@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import PortalUtil from '../../../shared/utils/PortalUtil';
 import NavbarService from '../../../shared/service/NavbarService';
+import './navbar-style.css';
 
 export class NavbarComponent extends Component {
 
@@ -29,8 +30,6 @@ export class NavbarComponent extends Component {
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown" key="01">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user">
-                                    </i>
                                     Usuários
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -57,9 +56,11 @@ export class NavbarComponent extends Component {
                 if (item.fields) {
                     // é dropdown
                     return this.renderDropdownItem(item);
+                    //return null;
                 } else {
                     // é navitem comum
                     return this.renderItem(item);
+                    //return undefined;
                 }
 
             });
@@ -70,14 +71,12 @@ export class NavbarComponent extends Component {
     renderItem = function (item) {
         let navItemRendered;
         navItemRendered = (
-            <div>
                 <li class="nav-item" key={item.order}>
                     <a class="nav-link" href={item.link}>
                         <i class={item.icon}></i>
                         {item.title}
                     </a>
                 </li >
-            </div>
         )
         // if(isFirst){
         //     navItemRendered = navItemRendered + (<span class="sr-only">(current)</span>);
@@ -87,9 +86,8 @@ export class NavbarComponent extends Component {
 
     renderDropdownItem = function (item) {
         return (
-            <div>
                 <li class="nav-item dropdown" key={item.order}>
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown">
                         <i class={item.icon}>
                             <span class="badge badge-primary"></span>
                         </i>
@@ -97,9 +95,8 @@ export class NavbarComponent extends Component {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {this.renderSubItems(item)}
-                    </div >
+                    </div>
                 </li >
-            </div>
         );
     }
 
