@@ -4,8 +4,10 @@ import avatarIcon from './../../../assets/images/avatar.png';
 import validateLogin from './validateLogin';
 import { Redirect } from 'react-router-dom';
 import PortalUtil from '../../shared/utils/PortalUtil';
+import RedirectUtil from '../../shared/utils/RedirectUtil';
+import User from '../../shared/model/user.model';
 
-class Security extends Component {
+class Login extends Component {
 
     state = {
         name: "",
@@ -29,7 +31,8 @@ class Security extends Component {
         promiseLogin
             .then(result => {
                 PortalUtil.setUserToken(result.data.token);
-                this.props.history.push("/dashboard");
+                PortalUtil.setCurrentUser(new User());   
+                RedirectUtil.redirectToDashBoard();
             })
             .catch(err => {
                 console.log(err);
@@ -72,4 +75,4 @@ class Security extends Component {
     }
 }
 
-export default Security;
+export default Login;

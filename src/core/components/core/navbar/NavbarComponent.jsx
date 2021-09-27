@@ -59,18 +59,21 @@ export class NavbarComponent extends Component {
 
     renderItems = async function () {
         const nav = await new NavbarService().get().then(result => {
-            return result.data.fields.map(item => {
-                if (item.fields) {
-                    // é dropdown
-                    return this.renderDropdownItem(item);
-                    //return null;
-                } else {
-                    // é navitem comum
-                    return this.renderItem(item);
-                    //return undefined;
-                }
-
-            });
+            if(result.data && result.data.fields){
+                return result.data.fields.map(item => {
+                    if (item.fields) {
+                        // é dropdown
+                        return this.renderDropdownItem(item);
+                        //return null;
+                    } else {
+                        // é navitem comum
+                        return this.renderItem(item);
+                        //return undefined;
+                    }
+    
+                });
+            }
+            return [];
         });
         this.setState({ navItems: nav });
     }

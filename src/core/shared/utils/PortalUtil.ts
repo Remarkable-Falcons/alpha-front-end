@@ -2,6 +2,7 @@ import axios from 'axios';
 import Enterprise from '../model/Enterprise';
 import User from '../model/user.model';
 import history from './history';
+import RedirectUtil from './RedirectUtil';
 
 class PortalUtil {
     
@@ -13,7 +14,6 @@ class PortalUtil {
     constructor(){
         console.log("PortalUtil is inicialized");
         PortalUtil.createConnection().get('/config/enterprise').then(result => {
-            console.log(result);
             PortalUtil.setEnterprise(new Enterprise(result.data));
         });
     }
@@ -36,14 +36,18 @@ class PortalUtil {
         }, (error) => {
 
             if (error.response.status === 401) {
-                PortalUtil.removeToken();
-                history.push("/");
+                PortalUtil.logout();
                 const requestConfig = error.config;
                 return axios(requestConfig);
             }
             return Promise.reject(error);
         });
         return api;
+    }
+
+    static logout = (): void => {
+        PortalUtil.removeToken();
+        RedirectUtil.redirectToLoginPage();
     }
 
     static getHistory = () => {
