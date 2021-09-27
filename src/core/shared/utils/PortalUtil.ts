@@ -74,8 +74,8 @@ class PortalUtil {
         // apagar isso e trazer do back-end, xunxo apenas para teste.
         return this.enterprise || 
         await this.getEnterpriseByApi().then(result => {
-            PortalUtil.setEnterprise(new Enterprise({name: "teste"}));
-            return new Enterprise({name: "teste"});
+            PortalUtil.setEnterprise(result);
+            return result;
         });
     }
 
